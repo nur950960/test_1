@@ -52,8 +52,8 @@ boolean_1 = True
 boolean_2 = False
 None_type = None
 
-# num1 = 10
-# num2 = 5  + num2) #сложение = 15 
+num1 = 10
+num2 = (5  + num1) #сложение = 15 
 print(num1 - num2) #вычитание = 5 
 print(num1 * num2) #умножения = 50
 print(num1 / num2) #дробное деление = 2.0 
@@ -63,7 +63,7 @@ print(num1 ** num2)#возведение в степень =  100000
 print(num1 ** 0.5) #корень числа 
 from math import sqrt
 print(sqrt(num1))  #корень числа 
-print(abs(-num))   # |-10| -> 10 модуль числа 
+print(abs(-num2))   # |-10| -> 10 модуль числа 
 print(round(5.6))  # 6 (округление в большую сторону)
 print(round(5.4))  # 5 
 print(round(5.5))  # 6
