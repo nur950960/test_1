@@ -1,0 +1,334 @@
+База данных - это какое то хранилище информации(текста, видео, изображения и т..д) 
+
+СУБД (Система управления баз данных) - это какая то система при помощи, которой можно удалять, создовать редактировать данные в базе данных 
+
+1.Реалиционные - где данные хранятся ввиде таблиц, есть связи 
+2.Не реалиционные - где данные хранятся ввиде коллекций 
+
+Postgresgl(СУБД)
+
+'------------------------------'
+Команды СУБД
+
+\c - показывает к какой базе данных мы подключенны
+\с database_name - подключение к базе данных database_name
+\l - показывает список баз данных на ноуте 
+\dt - показвает список таблиц текущей базе данных 
+\d+ - покажет подробную инфо. о таблицах 
+\d+ nurmuhammed - покажет подробную инфо. о таблице nurmuhammed
+\du - показывает список юзеров с правами 
+\q - выход из СУБД 
+psql - вход в СУБД 
+
+'---------------------------------'
+Сырые запросы 
+CREATE DATABASE name_db; - создание базы данных name_db 
+
+
+CREATE TABLE name_table(column1 data_tupe1, column2 data_tupe2); - Создание таблицы name_table с полями column1, column2 
+
+DROP TABLE name_table; - удаление таблиц name_table
+'----------------------------'
+
+Заполнение таблиц 
+
+INSERT INTO name_table VALUES 
+(katana, tlbkvs@gmail.com, ksfajkh473837)
+(makers, makers@gmail.com, ajkf78354) 
+
+INSERT INTO name_table(email, password) VALUES 
+(tlbkvs@gmail.com, ksfajkh473837)
+(makers@gmail.com, ajkf78354) 
+
+SELECT * FROM name_table; - показывает все данные, которые хранятся в таблице name_table 
+
+DELETE FROM name_table; - удаленние данных из таблицы name_table 
+DELETE TABLE users - удалает таблицу (users) 
+DROP DATABASE lalafo_db - удалает базу данных lalafo_db
+
+
+UPDATE
+UPDATE name_table SET col = new_val; - обновление всех записей под полем col на new_val 
+
+UPDATE name_table SET col = new_val WHERE id < 10; - обновление записей в нескольких обьектах, в данном случае тех обьектов у которых id меньше 10
+
+
+'УСЛОВИЕ'
+DELETE FROM name_table WHERE column1 = value1; - удаляю все записи по условию
+
+SELECT * FROM name_table WHERE title LIKE '%world%'; - покажет все записи у которых title содержит слово world 
+
+like - чувствительный к регистру (World - не пойдет) 
+
+SELECT * FROM name_table WHERE title ILIKE '%WoRLd%'; 
+WORLD 
+world 
+worLD
+hello world 
+World hello 
+
+ilike - не чувствительный к регистру
+
+'%word' - то будет брать записи у которых есть предложения перед word либо те записи где написанно word
+
+% - символ, который показывает где могут быть другие слова 
+
+'%word' - те записи которые заканчиваются на word
+
+'word%' - те записи которые начинается на word
+
+'%word%' - те записи где есть word 
+
+SELECT * FROM name_table ORDER BY column1; 
+# сортировка по определеному полю (по возрастанию ASC)
+
+SELECT * FROM name_table ORDER_BY column1 DESC; 
+# сортировка по определеному полю (по убыванию DESC)
+
+SELECT * FROM name_table LIMIT 10;
+# выводит первые 10 записей 
+
+SELECT * FROM name_table OFFSET 10; 
+# выводит все записи, пропустив первые 10 записей
+
+SELECT * FROM name_table LIMIT 20 OFFSET 10; 
+# пропускается первый 10 
+# и выводятся следующие 20
+
+
+Добавление поля
+ALTER TABLE name_table ADD COLUMN new_column_name type;
+#ALTER TABLE post ADD COLUMN title VARCHAR(50);
+
+Удаление поля
+ALTER TABLE name_table DROP COLUMN column_name;
+#ALTER TABLE post ADD COLUMN title VARCHAR(50);
+
+Переименование поля
+ALTER TABLE name_table RENAME COLUM old_column_name TO new_column_name
+
+Изменение типа данных поля
+ALTER TABLE name_table ALTER COLUMN name_column TYPE data_type;
+
+Ограничение 
+1. UNIQUE - все значение должны быть уникальными
+2. DEFAULT - у столбца будет значения по умолчанию (запишется если не передать данные) 
+3. NULL | NOT NULL - определяет будет ли столбец обязательным для заполнения 
+4. CHECK - проверяет значения столбца на определенное условие 
+5. PRIMARY KEY - (первичный ключ) определяет, бедет ли столбец иденфикатором (отличить одну запись от другой), (учавствует в связях) 
+6. FOREIGN KEY - (внешний ключ) используется для связи и для создания связей
+
+Виды связей
+One to one - один к одному 
+один человек - один ID 
+один человек - одна автобиография 
+
+One to many - один к многим 
+один блогер - много постов 
+один куратор - много студентов 
+
+Many to many - многие ко многим 
+один банк - много клиентов, один клиент - много банков 
+один разработчик - много проектов, один проект - много разработчиков 
+один студент - много менторов, один ментор - много студентов
+
+Практика(связи) 
+One to one  
+
+CREATE TABLE author(
+    id SERIAL PRIMARY KEY, 
+    name VARCHAR(50), 
+    age INT
+);
+
+CREATE TABLE autobiografy(
+    id SERIAL PRIMARY KEY, 
+    body TEXT,
+    created_at DATE, 
+    author_at DATE, 
+    author_id INT UNIQUE, --unique мы ставим, чтобы сделать one2one 
+
+    CONSTRAINT fk_author_bio 
+    FOREIGN KEY (author_id) REFERENCES author (id)
+
+);
+
+One to many 
+
+CREATE TABLE curator (
+    id SERIAL  PRIMARY KEY, 
+    name VARCHAR(50)
+);
+
+CREATE TABLE student (
+    id SERIAL PRIMARY KEY, 
+    name VARCHAR(50), 
+    email VARCHAR(100), 
+    language VARCHAR(2), 
+    "group" VARCHAR(30), 
+    curator_id INT, 
+
+    CONSTRAINT fk_student_curator 
+    FOREIGN KEY (curator_id) REFERENCES curator (id)
+);
+
+Many to many 
+
+CREATE TABLE devoloper (
+    id SERIAL PRIMARY KEY, 
+    name VARCHAR(50), 
+    experince INT 
+);
+
+CREATE TABLE project (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(50), 
+    tz TEXT, 
+    start DATE, 
+    finish DATE
+);
+
+CREATE TABLE dev_proj (
+    dev_id INT, 
+    proj_id INT, 
+
+    CONSTRAINT fk_dev 
+    FOREIGN KEY (dev_id) REFERENCES devoloper (id),
+
+    CONSTRAINT fk_proj 
+    FOREIGN KEY (proj_id) REFERENCES project (id)
+);
+
+
+
+Joins
+#'JOIN' - это инструкция, которая позволяет в запросах SELECT брать данные из нескольких таблиц 
+
+1. INNER JOIN (JOIN) - достаются только те записи, у которых есть связь 
+2. LEFT JOIN - достаются все записи с левой таблицы, и с правой таблицы у которых есть связь с левой 
+3. RIGHT JOIN - достает все записи с правой таблицы, и с левой таблицы у которых есть связь с левой 
+4. FUUL JOIN - достает все записи с 2 таблиц 
+
+где 'левая' таблица - та, которая написана до join,
+а 'правая' таблица - та, которая написано после join  
+
+
+
+'Агрегационные функции' 
+Sum - функция, считающая сумму всех записей в сгруппированном поле 
+
+CREATE TABLE custumer(
+    id SERIAL PRIMARY KEY, 
+    name VARCHAR(50)
+);
+
+CREATE TABLE product(
+    id SERIAL PRIMARY KEY, 
+    title VARCHAR(50), 
+    price DECIMAL 
+);
+
+CREATE TABLE cart(
+    id SERIAL PRIMARY KEY, 
+    custumer_id INT, 
+    product_id INT, 
+
+    CONSTRAINT cart_custumer 
+    FOREIGN KEY (custumer_id) REFERENCES custumer (id), 
+
+    CONSTRAINT cart_product 
+    FOREIGN KEY (product_id) REFERENCES product (id)
+);
+
+
+'Заполнение' 
+
+INSERT INTO custumer (name) VALUES 
+('custumer1'), 
+('custumer2'), 
+('custumer3');
+
+INSERT INTO product (title, price) VALUES 
+('product1', 100), 
+('product2', 200), 
+('product3', 300), 
+('product4', 400), 
+('product5', 500), 
+('product6', 600); 
+
+INSERT INTO cart (custumer_id, product_id) VALUES 
+(1, 2), 
+(1, 5), 
+(1, 3), 
+(2, 1), 
+(3, 4), 
+(3, 6);
+
+SELECT custumer.name, SUM(product.price) AS total_price 
+FROM product JOIN cart ON product_id = cart.product_id
+JOIN custumer ON custumer.id = cart.custumer_id
+GROUP BY (custumer.name); 
+
+
+
+'ARRAY_AGG' - Обьединяет записи сгруппированного поля в массив 
+
+CREATE TABLE blogger (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(50)
+);
+
+CREATE TABLE post (
+    id SERIAL PRIMARY KEY, 
+    body TEXT, 
+    created_at DATE, 
+    blogger_id INT, 
+
+    CONSTRAINT fk_post_blogger 
+    FOREIGN KEY (blogger_id) REFERENCES blogger (id)
+);
+
+INSERT INTO blogger (name) VALUES 
+('Makers'), ('Anonym'), ('Tima'); 
+
+INSERT INTO post (body, created_at, blogger_id) VALUES 
+('Hello world', '10.05.2022', 1),
+('Linkedin', '22.05.2023', 1),
+('Code', '12.07.2023', 1), 
+('Hi', '20.01.2024', 2), 
+('katana', '19.02.2024', 2), 
+('Bye', '08.03.2024', 3);
+
+SELECT blogger.name, ARRAY_AGG(post.body) AS posts 
+FROM blogger JOIN post ON blogger.id = post.blogger_id 
+GROUP BY blogger.name;
+
+'--------------------------------'
+GROUP BY - это ключевое слово, которое позволяет выводить значения из колонок обьедененные в группы 
+'---------------------------------'
+
+MIN, MAX -  высчитывает минимальное или максимальное значение среди записей в сгруппированном поле 
+'----------------------------------'
+
+SELECT
+blogger.name,
+MIN(post.created_at) AS first,
+MAX(post.created_at) AS last 
+FROM blogger JOIN post ON blogger.id = post.blogger_id
+GROUP BY blogger.name;
+
+'--------------------'
+COUNT - считает кол-во записей в сгруппированном поле 
+
+SELECT blogger.name, COUNT(post.id) FROM blogger 
+JOIN post ON blogger.id = post.blogger_id GROUP BY blogger.name; 
+'--------------------' 
+
+'ИМПОРТ ДАННЫХ ИЗ ФАЙЛА В ВАШУ БД'
+psql db_name < file.sql
+
+'ЕКСПОРТ ДАННЫХ ИЗ ВАШЕГО БД В ФАЙЛ'
+psql db_name > file.sql
+
+CHECK 
+DESTINCT 

@@ -29,9 +29,9 @@ import json
 # json_data = json.dumps(python_data)
 # print(json_data)
 '--------------------------------------'
-python_data = [1,2, True, False, None, 'makers']
-with open('test.json', 'w') as file: 
-    json.dump(python_data, file)
+# python_data = [1,2, True, False, None, 'makers']
+# with open('test.json', 'w') as file: 
+#     json.dump(python_data, file)
 
 # сериализация - перевод python обьектов в json строку 
 # dumps - метод для сериализации в json строку 

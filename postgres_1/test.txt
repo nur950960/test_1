@@ -1,0 +1,56 @@
+SELECT character.charname, 
+character.speechcount, 
+work.title 
+FROM character 
+JOIN character_work 
+ON character_work.charid = character.charid
+JOIN work 
+ON character_work.workid = work.workid;
+
+'-----------------------------------'
+
+SELECT ROUND(AVG(character.speechcount)), 
+work.title 
+FROM character JOIN character_work 
+ON character.charid = character_work.charid
+JOIN work 
+ON work.workid = character_work.workid 
+GROUP BY title 
+HAVING title = 'Romeo and Juliet';
+
+'------------------------------'
+
+SELECT section, SUM(wordcount) 
+FROM paragraph GROUP BY section;
+'----------------------------------'
+
+SELECT charname, speechcount FROM character 
+WHERE speechcount BETWEEN 15 AND 30; 
+
+'------------------------------------'
+
+SELECT title, year FROM work 
+WHERE year BETWEEN 1601 AND 1700;
+
+'-------------------------------------'
+
+SELECT longtitle FROM work 
+WHERE longtitle LIKE '%the%';
+
+'-------------------------------------'
+SELECT DISTINCT section FROM paragraph;
+
+'----------------------------'
+SELECT chapter.chapterid, 
+chapter.description, 
+work.title 
+FROM chapter 
+JOIN work ON chapter.workid = work.workid;
+
+'------------------------------'
+SELECT paragraph.paragraphnum, 
+character.charname, 
+character.speechcount FROM paragraph 
+JOIN character ON character.charid = paragraph.charid;
+
+'---------------------------------'

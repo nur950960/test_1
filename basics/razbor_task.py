@@ -69,13 +69,7 @@
 #     print('да') 
 # else: 
 #     print('нет')
+import json
+printjson.dumps(['foo', {'bar': ('baz', None, 1.0, 2)}])
 
-
-
-
-
-
-
-
-
-
+ 

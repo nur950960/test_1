@@ -96,4 +96,20 @@
 
 # dict_ = { i: [j for j in range(1, i+1)] for i in range(1, 6)}
 # print(dict_) 
-
+'--------------------------------'
+# list_ = [x**2 if x % 2 == 0 else x for x in range(1, 11)]
+# print(list_)
+'--------------------------------'
+# list_ = [True if i % 2 == 0 else False for i in range(1, 11)]
+# print(list_)
+'-------------------------------'
+# list_name = ['paul', 'john', 'george', 'ringo', 'eric', 'patty', 'yoko', 'cynthia', 'linda', 'jude' ] 
+# new_list = ['shorter' if len(i) <= 4 else 'longer' for i in list_name]
+# print(new_list)
+'-------------------------------'
+# dict_ = {k : k * k for k in range(1, 11)}
+# print(dict_)
+'-------------------------------'
+# n = int(input('Введите число от 1 до 10: '))
+# dict_ = {key % n % 2 == 0 : key ** 3 for key in range(1, 501)}
+# print(dict_)
